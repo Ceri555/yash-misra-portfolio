@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Yash Misra — quantitative finance student building options, relative-value, and systematic trading research in Python.">
+  <meta name="theme-color" content="#ffffff">
+  <title>Yash Misra — Quantitative Finance</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23141414'/%3E%3Cpath d='M14 18h9l9 14 9-14h9L36 40v9h-8v-9z' fill='%23fff'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #141414;
+      --muted: #747474;
+      --line: #dedede;
+      --soft: #f3f3f3;
+      --pink: #f4b5ca;
+      --blue: #b9d8ff;
+      --lime: #dff56a;
+      --lavender: #d8c9ff;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+
+    .nav-shell {
+      position: sticky;
+      top: 18px;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      padding-top: 18px;
+    }
+    nav {
+      width: min(calc(100% - 40px), 880px);
+      min-height: 74px;
+      padding: 10px 13px 10px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border: 1px solid #ebebeb;
+      border-radius: 999px;
+      background: rgba(247,247,247,0.93);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+      backdrop-filter: blur(14px);
+    }
+    .mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 850;
+      letter-spacing: -0.08em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 17px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 650;
+      font-size: 0.92rem;
+    }
+    .nav-links a:hover, .nav-links a:focus-visible { background: #e9e9e9; }
+    .nav-links .contact { background: var(--ink); color: #fff; padding-inline: 20px; }
+    .nav-links .contact:hover, .nav-links .contact:focus-visible { background: #333; }
+
+    .hero {
+      text-align: center;
+      min-height: 83vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 118px 0 88px;
+    }
+    .hero-badge {
+      width: 92px;
+      height: 92px;
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      background: var(--pink);
+      font-size: 2rem;
+      font-weight: 850;
+      letter-spacing: -0.08em;
+      transform: rotate(-3deg);
+      box-shadow: 10px -10px 0 var(--soft);
+    }
+    h1 {
+      max-width: 980px;
+      margin: 48px auto 24px;
+      font-size: clamp(4rem, 8.2vw, 7.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+      text-wrap: balance;
+    }
+    .hero-copy {
+      max-width: 730px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      line-height: 1.45;
+      text-wrap: balance;
+    }
+    .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 38px; }
+    .button {
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      padding: 0 24px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 750;
+      text-decoration: none;
+      transition: transform 150ms ease, background 150ms ease;
+    }
+    .button:hover, .button:focus-visible { transform: translateY(-2px); background: #323232; }
+    .button.secondary { background: #fff; color: var(--ink); border-color: var(--line); }
+    .button.secondary:hover, .button.secondary:focus-visible { background: var(--soft); }
+    .button[aria-disabled="true"] { cursor: default; }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 920px;
+      margin: 0 auto 120px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--line);
+    }
+    .fact { background: #fff; padding: 28px 22px; text-align: center; }
+    .fact strong { display: block; font-size: 2rem; letter-spacing: -0.05em; }
+    .fact span { color: var(--muted); font-size: 0.9rem; }
+
+    section { padding: 120px 0; }
+    .section-head { max-width: 920px; margin: 0 auto 64px; text-align: center; }
+    .kicker { margin: 0 0 18px; color: var(--muted); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    h2 { margin: 0; font-size: clamp(3.1rem, 6.2vw, 6rem); line-height: 0.98; letter-spacing: -0.065em; text-wrap: balance; }
+    .section-copy { max-width: 680px; margin: 26px auto 0; color: var(--muted); font-size: 1.15rem; text-wrap: balance; }
+
+    .feature {
+      display: grid;
+      grid-template-columns: minmax(0, 0.83fr) minmax(0, 1.17fr);
+      gap: 48px;
+      align-items: center;
+      min-height: 650px;
+      padding: clamp(32px, 6vw, 74px);
+      border-radius: 44px;
+      background: var(--pink);
+      overflow: hidden;
+    }
+    .feature h3 { margin: 0 0 20px; font-size: clamp(2.5rem, 5vw, 4.8rem); line-height: 0.98; letter-spacing: -0.06em; }
+    .feature p { max-width: 520px; margin: 0; font-size: 1.12rem; }
+    .mini-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .mini-tags span { padding: 8px 13px; border: 1px solid rgba(20,20,20,0.32); border-radius: 999px; font-size: 0.82rem; font-weight: 650; }
+
+    .terminal {
+      background: #111;
+      color: #fff;
+      border-radius: 30px;
+      min-height: 450px;
+      padding: 26px;
+      box-shadow: 0 26px 70px rgba(74,28,44,0.24);
+      transform: rotate(1.25deg);
+    }
+    .terminal-top { display: flex; justify-content: space-between; align-items: center; color: #aaa; font-size: 0.78rem; }
+    .dots { display: flex; gap: 7px; }
+    .dots i { width: 9px; height: 9px; border-radius: 50%; background: #555; }
+    .price-row { display: flex; justify-content: space-between; align-items: end; gap: 20px; padding: 34px 0 20px; border-bottom: 1px solid #333; }
+    .price-row small { display: block; color: #8e8e8e; text-transform: uppercase; letter-spacing: 0.12em; }
+    .price-row strong { display: block; font-size: 2.7rem; letter-spacing: -0.05em; }
+    .positive { color: #a7f07d; font: 700 0.9rem/1 ui-monospace, monospace; }
+    .chart { height: 160px; margin-top: 18px; position: relative; overflow: hidden; border-bottom: 1px solid #292929; background: repeating-linear-gradient(to right, transparent 0, transparent calc(25% - 1px), #242424 25%), repeating-linear-gradient(to bottom, transparent 0, transparent calc(33.33% - 1px), #242424 33.33%); }
+    .chart-line { position: absolute; inset: 30px 5px 25px; }
+    .chart-line::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(172deg, transparent 0 14%, #f4b5ca 15% 17%, transparent 18% 25%, #f4b5ca 26% 28%, transparent 29% 39%, #f4b5ca 40% 42%, transparent 43% 51%, #f4b5ca 52% 54%, transparent 55% 64%, #f4b5ca 65% 67%, transparent 68% 77%, #f4b5ca 78% 80%, transparent 81%);
+      transform: skewY(-10deg);
+      filter: drop-shadow(0 0 8px rgba(244,181,202,.7));
+    }
+    .greeks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 18px; }
+    .greek { border: 1px solid #333; border-radius: 12px; padding: 11px 8px; }
+    .greek span { display: block; color: #888; font-size: 0.7rem; }
+    .greek strong { font: 650 0.9rem/1.4 ui-monospace, monospace; }
+
+    .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; }
+    .project-card { min-height: 520px; border-radius: 38px; padding: clamp(30px, 5vw, 54px); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+    .project-card.blue { background: var(--blue); }
+    .project-card.lime { background: var(--lime); }
+    .project-card .number { width: 48px; height: 48px; display: grid; place-items: center; background: #fff; border-radius: 50%; font-weight: 800; }
+    .project-card h3 { max-width: 520px; margin: 60px 0 16px; font-size: clamp(2.2rem, 4.3vw, 4rem); line-height: 1; letter-spacing: -0.055em; }
+    .project-card p { max-width: 560px; margin: 0; font-size: 1.06rem; }
+    .project-card footer { margin-top: 52px; padding-top: 20px; border-top: 1px solid rgba(20,20,20,.3); font-size: 0.84rem; font-weight: 700; }
+
+    .experience-shell { background: var(--soft); border-radius: 44px; padding: clamp(34px, 6vw, 78px); }
+    .experience-shell h2 { max-width: 760px; }
+    .timeline { margin-top: 70px; border-top: 1px solid #ccc; }
+    .role { display: grid; grid-template-columns: 0.65fr 1.35fr; gap: 40px; padding: 38px 0; border-bottom: 1px solid #ccc; }
+    .role-meta { color: var(--muted); font-size: 0.9rem; }
+    .role h3 { margin: 0 0 10px; font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.1; letter-spacing: -0.04em; }
+    .role p { max-width: 700px; margin: 0; color: #4f4f4f; }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .skill { min-height: 270px; padding: 26px; border: 1px solid var(--line); border-radius: 28px; display: flex; flex-direction: column; justify-content: space-between; }
+    .skill:nth-child(2) { background: var(--lavender); border-color: transparent; }
+    .skill:nth-child(4) { background: var(--pink); border-color: transparent; }
+    .skill-index { color: var(--muted); font-size: 0.78rem; }
+    .skill h3 { margin: 0 0 8px; font-size: 1.4rem; letter-spacing: -0.03em; }
+    .skill p { margin: 0; color: #555; font-size: 0.92rem; }
+
+    .closing { text-align: center; padding: 130px 0 150px; }
+    .closing-card { padding: clamp(48px, 8vw, 100px) 24px; border-radius: 44px; background: var(--ink); color: #fff; }
+    .closing-card h2 { max-width: 920px; margin: 0 auto; }
+    .closing-card p { max-width: 650px; margin: 26px auto 34px; color: #aaa; font-size: 1.12rem; }
+    .closing-card .button { background: #fff; color: var(--ink); border-color: #fff; }
+    .closing-card .button:hover, .closing-card .button:focus-visible { background: #ddd; }
+    .site-footer { display: flex; justify-content: space-between; gap: 24px; padding: 0 0 44px; color: var(--muted); font-size: 0.9rem; }
+
+    @media (max-width: 900px) {
+      .feature { grid-template-columns: 1fr; }
+      .terminal { transform: none; }
+      .project-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .wrap { width: min(calc(100% - 24px), var(--max)); }
+      .nav-shell { top: 10px; padding-top: 10px; }
+      nav { width: calc(100% - 20px); min-height: 64px; padding: 8px 10px 8px 14px; }
+      .mark { width: 40px; height: 40px; }
+      .nav-links a:not(.contact) { display: none; }
+      .nav-links .contact { min-height: 42px; padding-inline: 16px; }
+      .hero { min-height: auto; padding: 110px 0 76px; }
+      .hero-badge { width: 76px; height: 76px; border-radius: 20px; }
+      h1 { font-size: clamp(3.7rem, 18vw, 5.7rem); margin-top: 38px; }
+      .facts { grid-template-columns: 1fr; margin-bottom: 60px; }
+      section { padding: 76px 0; }
+      .section-head { margin-bottom: 42px; }
+      .feature { min-height: auto; padding: 28px; border-radius: 30px; gap: 42px; }
+      .terminal { min-height: 420px; padding: 20px; border-radius: 24px; }
+      .greeks { grid-template-columns: repeat(2, 1fr); }
+      .project-card { min-height: 460px; border-radius: 30px; }
+      .experience-shell { border-radius: 30px; }
+      .role { grid-template-columns: 1fr; gap: 12px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .site-footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-shell">
+    <nav aria-label="Primary navigation">
+      <a class="mark" href="#top" aria-label="Yash Misra home">YM</a>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a class="contact" href="mailto:yash.misra555@gmail.com">Contact</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="hero wrap" id="top">
+    <div class="hero-badge" aria-hidden="true">Δ</div>
+    <h1>I model markets, then test the thesis.</h1>
+    <p class="hero-copy">I’m Yash Misra, an Electrical &amp; Electronics Engineering and Economics student at BITS Pilani. I build options, relative-value, and systematic trading research in Python.</p>
+    <div class="actions">
+      <a class="button" href="#work">See the work</a>
+          <a class="button secondary" href="https://drive.google.com/file/d/19g6KNeaYOQ9Pmq3HB7thPo6jhXeY_TMR/view" target="_blank" rel="noopener">View résumé ↗</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="facts" aria-label="Profile highlights">
+      <div class="fact"><strong>3</strong><span>Trading research projects</span></div>
+      <div class="fact"><strong>2</strong><span>Engineering and economics disciplines</span></div>
+      <div class="fact"><strong>2029</strong><span>Expected graduation</span></div>
+    </div>
+
+    <section id="work">
+      <div class="section-head">
+        <p class="kicker">Selected research</p>
+        <h2>Built to turn a market idea into evidence.</h2>
+        <p class="section-copy">Each project moves from a financial hypothesis to a model, an implementation, and a clear performance readout.</p>
+      </div>
+
+      <article class="feature">
+        <div>
+          <p class="kicker">01 · Derivatives</p>
+          <h3>Options Pricing &amp; Greeks Analyzer</h3>
+          <p>Implemented Black-Scholes pricing for European options, calculated five core Greeks, estimated implied volatility, and mapped sensitivity to underlying market parameters.</p>
+          <div class="mini-tags"><span>Python</span><span>NumPy</span><span>SciPy</span><span>Matplotlib</span></div>
+        </div>
+        <div class="terminal" aria-label="Illustrative options analyzer interface">
+          <div class="terminal-top"><span>YM / OPTIONS LAB</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="price-row"><div><small>European call</small><strong>₹18.42</strong></div><span class="positive">IV 22.8% ↑</span></div>
+          <div class="chart" aria-hidden="true"><div class="chart-line"></div></div>
+          <div class="greeks">
+            <div class="greek"><span>Delta</span><strong>0.623</strong></div>
+            <div class="greek"><span>Gamma</span><strong>0.018</strong></div>
+            <div class="greek"><span>Theta</span><strong>-0.084</strong></div>
+            <div class="greek"><span>Vega</span><strong>0.217</strong></div>
+            <div class="greek"><span>Rho</span><strong>0.106</strong></div>
+          </div>
+        </div>
+      </article>
+
+      <div class="project-grid">
+        <article class="project-card blue">
+          <div><span class="number">02</span><h3>Cointegration-Based Pairs Trading</h3><p>Identified cointegrated equity pairs, constructed mean-reverting long-short spreads, and evaluated Sharpe ratio, cumulative returns, and drawdown across multiple windows.</p></div>
+          <footer>PYTHON · PANDAS · STATSMODELS · YFINANCE</footer>
+        </article>
+        <article class="project-card lime">
+          <div><span class="number">03</span><h3>MACD Strategy Optimization</h3><p>Replicated and extended a published rule-based trading approach for NSE-listed equities, optimizing MACD parameters and comparing risk-adjusted outcomes across time frames.</p></div>
+          <footer>PYTHON · TA-LIB · BACKTESTING · RISK ANALYSIS</footer>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="experience-shell">
+        <p class="kicker">Experience and education</p>
+        <h2>Quantitative thinking, applied in code and communication.</h2>
+        <div class="timeline">
+          <article class="role">
+            <div class="role-meta">IDS Infotech Ltd.<br>Chandigarh, India</div>
+            <div><h3>Data and Machine Learning Intern</h3><p>Developed a regression-based real-estate price prediction pipeline using the Ames Housing dataset, including data cleaning, feature engineering, model evaluation, and formal documentation.</p></div>
+          </article>
+          <article class="role">
+            <div class="role-meta">BITS Pilani<br>K.K. Birla Goa Campus</div>
+            <div><h3>B.E. Electrical &amp; Electronics Engineering + M.Sc. Economics</h3><p>Relevant coursework includes quantitative analysis, financial modeling, market dynamics, and options trading strategies. Expected graduation in 2029.</p></div>
+          </article>
+          <article class="role">
+            <div class="role-meta">Department of Publicity &amp; PR<br>BITS Pilani Goa</div>
+            <div><h3>Strategic Advisor</h3><p>Advise on publicity strategy and coordinate messaging and outreach for a college-wide cultural festival, including support across major Indian cities.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="kicker">Working toolkit</p>
+        <h2>The tools behind the research.</h2>
+      </div>
+      <div class="skills-grid">
+        <article class="skill"><span class="skill-index">01</span><div><h3>Programming</h3><p>Python, NumPy, SciPy, pandas</p></div></article>
+        <article class="skill"><span class="skill-index">02</span><div><h3>Modeling</h3><p>statsmodels, Black-Scholes, implied volatility, regression</p></div></article>
+        <article class="skill"><span class="skill-index">03</span><div><h3>Markets</h3><p>Derivatives valuation, technical analysis, relative value</p></div></article>
+        <article class="skill"><span class="skill-index">04</span><div><h3>Evaluation</h3><p>Backtesting, Sharpe ratio, drawdown, sensitivity analysis</p></div></article>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="closing-card">
+        <h2>Interested in derivatives, systematic strategies, and hard problems.</h2>
+        <p>I’m looking for opportunities to connect quantitative theory with real trading systems and disciplined research.</p>
+        <a class="button" href="mailto:yash.misra555@gmail.com">Email Yash</a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>Yash Misra · Goa, India</span>
+      <span>yash.misra555@gmail.com</span>
+    </footer>
+  </main>
+</body>
+</html>
